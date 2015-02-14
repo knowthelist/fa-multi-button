@@ -26,7 +26,7 @@ Examples
     });
 </script>
 ```
-[More xxamples with fa-multi-button](http://knowthelist.github.io/fa-multi-button)
+[More examples with fa-multi-button](http://knowthelist.github.io/fa-multi-button)
 
 Options
 -------
@@ -37,10 +37,10 @@ Options
 - **offBackgroundColor**: Color of the foreground in state off  (default: '#505050')
 - **onColor**: Color of the foreground in state on  (default: '#2A2A2A')
 - **onBackgroundColor**: Color of the background in state on (default: '#aa6900')
-- **classes**: Array of optional font awesome classes to add to selector. Example would be ['fa-lg','fa-3x'].
+- **classes**: Array of optional font awesome classes to add to selector (default: 'fa-3x')
 - **mode**: Sets the kind of button: 'toggle', 'push' or 'signal' (default='toggle')
-- **toggleOn**: Function. Called in state on.
-- **toggleOff**: Function. Called in state off.
+- **toggleOn**: Function called in state on
+- **toggleOff**: Function called in state off
 
 
 Hooks
