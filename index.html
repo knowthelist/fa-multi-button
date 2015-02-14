@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="js/fa-multi-button.js"></script>
+
+	<script>
+	$(function($) {
+		 	$('#btn1').famultibutton();
+		 	btn = $('#btn2').famultibutton();
+			btn.setOn();
+			$('#btn3').famultibutton({
+				backgroundIcon: 'fa-circle-thin',
+				icon: 'fa-music',
+				onColor: '#aa6900',
+				offColor: '#505050',
+			});
+			$('#btn4').famultibutton({
+			   backgroundIcon: 'fa-circle-thin',
+			 icon: 'fa-refresh',
+			   onColor: '#aa6900',
+				offColor: '#505050',
+			   mode: 'push', 
+			});
+			$('#btn5').famultibutton({
+		 		icon: 'fa-lock',
+		   		onColor: '#ffffff',
+				offColor: '#eeeeee',
+				onBackgroundColor: '#33dd00',
+				toggleOn: function( ) {
+			 		$('#out').text('Is on');
+	    		},
+	    		toggleOff: function( ) {
+			 		$('#out').text('Is off');
+	    		},
+			});
+			$('#btn6').famultibutton({
+		   		backgroundIcon: 'fa-square-o',
+		 		icon: 'fa-undo',
+		   		onColor: '#33dd00',
+				offColor: '#505050',
+				onBackgroundColor: '#33dd00',
+				mode: 'push', 
+			});
+			btn=$('#btn7').famultibutton({
+				icon: 'fa-lightbulb-o',
+		   		onColor: '#ffffff',
+				offColor: '#eeeeee',
+				onBackgroundColor: '#33dd00',
+				mode: 'signal', 
+			});
+			btn.setOn();
+			btn=$('#btn8').famultibutton({
+				icon: 'fa-heart',
+				onColor: '#ffffff',
+				offColor: '#ffffff',
+				onBackgroundColor: '#dd3300',
+				mode: 'toggle', 
+			});
+			btn.setOn();
+});
+	</script>
+ <style>
+body{
+padding: 0;
+margin: 0px 50px;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-weight: 300;
+text-rendering: optimizelegibility;
+}
+
+p{font-size: 30px; line-height: 30px}
+p.out{padding-top: 10px}
+div.icon{height: 30px;}
+div.demo{text-align: center; width: 270px; height: 300px; float: left; padding-bottom: 10px}
+div.demo > p{font-size: 20px}
+pre{text-align: left; margin-left:10px; height: 140px;}
+</style>
+</head>
+<body>
+ 	<div style="width:100%;font-size:40px;letter-spacing:-8px;line-height:40px;">
+		<h1>jQuery FA multi button</h1>
+	</div>
+	<div>
+		<p>Modern toggle, push button or just a signal indicator.</p>
+		<p style="font-size: 20px">* Perfect for touch UIs</p>
+	</div>
+	
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>Default button</p>
+<pre>
+$('#btn1').famultibutton();
+</pre>
+<div class="icon" id="btn1"></div>
+		
+</div>
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>Set status</p>
+<pre>
+btn = $('#btn2').famultibutton();
+btn.setOn();
+</pre>
+<div class="icon" id="btn2"></div>
+</div>
+
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>Other icons</p>
+<pre>
+$('#btn3').famultibutton({
+   backgroundIcon: 'fa-circle-thin',
+   icon: 'fa-music',
+   onColor: '#aa6900',
+   offColor: '#505050'
+});
+</pre>
+<div class="icon" id="btn3"></div>
+</div>
+
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>Push button</p>
+<pre>
+$('#btn4').famultibutton({
+   backgroundIcon: 'fa-circle-thin',
+   icon: 'fa-refresh',
+   onColor: '#aa6900',
+   offColor: '#505050',
+   mode: 'push', 
+});
+</pre>
+<div class="icon" id="btn4"></div>
+</div>
+	
+
+<div class="demo">
+<p>Status callback</p>
+<pre>
+$('#btn5').famultibutton({
+    icon: 'fa-lock',
+    onColor: '#ffffff',
+    offColor: '#eeeeee',
+    onBackgroundColor: '#33dd00',
+    toggleOn: function( ) {
+      $('#out').text('Is on');
+    },
+    toggleOff: function( ) {
+      $('#out').text('Is off');
+    }
+});
+</pre>
+<div class="icon" id="btn5"></div>
+<p class="out" id="out"></p>
+</div>
+
+<div class="demo">
+<p>Green push button</p>
+<pre>
+$('#btn6').famultibutton({
+    backgroundIcon: 'fa-square-o',
+    icon: 'fa-undo',
+    onColor: '#33dd00',
+    offColor: '#505050',
+    onBackgroundColor: '#33dd00',
+    mode: 'push', 
+});
+</pre>
+<div class="icon" id="btn6"></div>
+</div>
+
+<div class="demo">
+<p>Signal indicator</p>
+<pre>
+btn=$('#btn7').famultibutton({
+    icon: 'fa-lightbulb-o',
+    onColor: '#ffffff',
+    offColor: '#eeeeee',
+    onBackgroundColor: '#33dd00',
+    mode: 'signal', 
+});
+btn.setOn();
+</pre>
+<div class="icon" id="btn7"></div>
+</div>
+
+<div class="demo">
+<p>Color settings</p>
+<pre>
+btn=$('#btn8').famultibutton({
+    icon: 'fa-heart',
+    onColor: '#ffffff',
+    offColor: '#ffffff',
+    onBackgroundColor: '#dd3300',
+    mode: 'toggle', 
+});
+btn.setOn();
+</pre>
+<div class="icon" id="btn8"></div>
+</div>
+
+
+
+<div style="clear:both"></div>
+<div style="margin-top:30px;text-align:center">
+<p style="font-size:20px;">jQuery FA Multi Button is &copy; 2015 Mario Stephan - MIT License</p>
+</div>
+</body>
+
+</body>
+</html>
