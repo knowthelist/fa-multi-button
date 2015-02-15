@@ -3,6 +3,7 @@ fa-multi-button
 
 Modern toggle, push button or just a signal indicator
 
+![](http://knowthelist.github.io/fa-multi-button/fa-multibutton-example.png)
 Features
 -------
 * Create toggle buttons with font awesome icons
