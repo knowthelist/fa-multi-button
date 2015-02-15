@@ -30,11 +30,9 @@
 				offColor: '#eeeeee',
 				onBackgroundColor: '#33dd00',
 				toggleOn: function( ) {
-			 		$('#out').text('Is on');
-	    		},
+			 		$('#out').text('Is on')},
 	    		toggleOff: function( ) {
-			 		$('#out').text('Is off');
-	    		},
+			 		$('#out').text('Is off')},
 			});
 			$('#btn6').famultibutton({
 		   		backgroundIcon: 'fa-square-o',
@@ -60,16 +58,36 @@
 				mode: 'toggle', 
 			});
 			btn.setOn();
+			btn=$('#btn9').famultibutton({
+				icon: 'fa-play',
+				classes: [''],
+			}).setOn();
+			btn=$('#btn10').famultibutton({
+				icon: 'fa-stop',
+				classes: ['fa-lg'],
+			}).setOn();
+			btn=$('#btn11').famultibutton({
+					icon: 'fa-step-backward',
+				classes: ['fa-3x'],
+				mode: 'push', 
+			});
+			btn=$('#btn12').famultibutton({
+				icon: 'fa-step-forward',
+				classes: ['fa-4x'],
+				mode: 'push', 
+			});
+
 });
 	</script>
  <style>
 body{
 padding: 0;
 margin: 0px 50px;
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-family: "Helvetica Neue", "Helvetica", "Open Sans", "Arial", "Helvetica", sans-serif; 
 font-weight: 300;
 text-rendering: optimizelegibility;
 }
+h1{letter-spacing: -4px;}
 a {
   color:#39c;
   font-weight:400;
@@ -83,10 +101,9 @@ a small {
   display:block;
 }
 p{font-size: 30px; line-height: 30px}
-p.out{padding-top: 10px}
-div.icon{height: 30px;}
-div.demo{text-align: center; width: 270px; height: 300px; float: left; padding-bottom: 10px}
-div.demo > p{font-size: 20px}
+p.out{font-size: 20px;}
+div.icon, p.out{  margin-top:-10px;}
+div.demo{text-align: center; width: 270px; height: 300px; float: left; padding-bottom: 20px}
 pre{text-align: left; margin-left:10px; height: 140px;}
 </style>
 </head>
@@ -153,11 +170,9 @@ $('#btn5').famultibutton({
     offColor: '#eeeeee',
     onBackgroundColor: '#33dd00',
     toggleOn: function( ) {
-      $('#out').text('Is on');
-    },
+      $('#out').text('Is on')},
     toggleOff: function( ) {
-      $('#out').text('Is off');
-    }
+      $('#out').text('Is off')}
 });
 </pre>
 <div class="icon" id="btn5"></div>
@@ -209,7 +224,51 @@ btn.setOn();
 <div class="icon" id="btn8"></div>
 </div>
 
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>Smallest size</p>
+<pre>
+btn=$('#btn9').famultibutton({
+	icon: 'fa-play',
+	classes: [''],
+}).setOn();
+</pre>
+<div class="icon" id="btn9"></div>
+</div>
 
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>Bigger size</p>
+<pre>
+btn=$('#btn10').famultibutton({
+	icon: 'fa-stop',
+	classes: ['fa-lg'],
+}).setOn();
+</pre>
+<div class="icon" id="btn10"></div>
+</div>
+
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>3x size</p>
+<pre>
+btn=$('#btn11').famultibutton({
+	icon: 'fa-step-backward',
+	classes: ['fa-3x'],
+	mode: 'push', 
+});
+</pre>
+<div class="icon" id="btn11" style="margin-top:-40px;"></div>
+</div>
+
+<div class="demo" style="background-color:#222; color:#FFF;">
+<p>4x size</p>
+<pre>
+btn=$('#btn12').famultibutton({
+	icon: 'fa-step-forward',
+	classes: ['fa-4x'],
+	mode: 'push', 
+});
+</pre>
+<div class="icon" id="btn12" style="margin-top:-60px;"></div>
+</div>
 
 <div style="clear:both"></div>
         
