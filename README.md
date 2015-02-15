@@ -72,7 +72,7 @@ Update call for multi instances
 
 <script>
 
-// init button
+// init buttons
  $('.button').each(function(index) {
  	
  	var device = $(this).attr('device');
@@ -89,8 +89,8 @@ Update call for multi instances
 	elem.data('famultibutton',elem);
  });
  
- // update button
- function onUpdate() {
+ // update buttons
+ function doUpdate() {
  	$('.button').each(function(index) {
  	  var state = getSomething( $(this).attr('device') );
 	  if ( state == 'on' )
