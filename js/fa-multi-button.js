@@ -1,8 +1,8 @@
 /*!jQuery FA multi button*/
 /**
-* Modern toggle, push buttons or just a signal indicator
+* Modern toggle, push button or just a signal indicator
 *
-* Version: 1.0.0
+* Version: 1.0.1
 * Requires: jQuery v1.7+
 *
 * Copyright (c) 2015 Mario Stephan
@@ -90,24 +90,27 @@ return elem;
 	
 	function fadeOff() {
 			
-			state = false;
-
-			$( '<div />' ).animate({ 'width' : 100 }, {
-				duration : 700,
-				easing : 'swing',
-				// Fade the colors in the step function
-				step : function( now, fx ) {
-				var completion = ( now - fx.start ) / ( fx.end - fx.start );
-				elem.children().first().css( 'color', getGradientColor(
-					options['onBackgroundColor'],
-					options['offBackgroundColor'],
-					completion));
-				elem.children().last().css( 'color', getGradientColor(
-					options['onColor'],
-					options['offColor'],
-					completion));
-				}, 
-			});
+			if(state){
+			
+				state = false;
+	
+				$( '<div />' ).animate({ 'width' : 100 }, {
+					duration : 700,
+					easing : 'swing',
+					// Fade the colors in the step function
+					step : function( now, fx ) {
+					var completion = ( now - fx.start ) / ( fx.end - fx.start );
+					elem.children().first().css( 'color', getGradientColor(
+						options['onBackgroundColor'],
+						options['offBackgroundColor'],
+						completion));
+					elem.children().last().css( 'color', getGradientColor(
+						options['onColor'],
+						options['offColor'],
+						completion));
+					}, 
+				});
+			}
 	};
 	
 	// helper function for color fade out
@@ -155,30 +158,51 @@ return elem;
 	
 	   return '#' + diff_red + diff_green + diff_blue;
 	 };
-
-	var clickEventType=((document.ontouchend!==null)?'click':'touchstart');
-	this.bind(clickEventType, function(e) {
+	 
+	if (options['mode'] == 'push'){ 
+		var clickEventType=((document.ontouchstart!==null)?'mousedown':'touchstart');
+		var releaseEventType=((document.ontouchend!==null)?'mouseup':'touchend');
+		var leaveEventType=((document.ontouchleave!==null)?'mouseout':'touchleave');
+		this.bind(clickEventType, function(e) {
 	
-		if(options['mode'] != 'signal'){
+			setOn(); 
 
-			if(state){
-				setOff();	
-				if(typeof options['toggleOff'] === 'function'){
-					options['toggleOff'](this);
-				}
-			}else{
-				setOn(); 
-
-				if(options['mode'] == 'push'){
-					fadeOff();
-				}
-								if(typeof options['toggleOn'] === 'function'){
-					options['toggleOn'].call(this);
-				}
+			if(typeof options['toggleOn'] === 'function'){
+				options['toggleOn'].call(this);
 			}
 			e.preventDefault();
-		}
-	});
+		});
+		this.bind(releaseEventType, function(e) {
+		
+			fadeOff(); 
+			e.preventDefault();
+		});
+		this.bind(leaveEventType, function(e) {
+		
+			fadeOff(); 
+			e.preventDefault();
+		});
+	}
+	else if (options['mode'] == 'toggle'){ 
+		var clickEventType=((document.ontouchstart!==null)?'click':'touchstart');
+		this.bind(clickEventType, function(e) {
+
+				if(state){
+				
+					setOff();	
+					if(typeof options['toggleOff'] === 'function'){
+						options['toggleOff'](this);
+					}
+				}else{
+				
+					setOn(); 
+					if(typeof options['toggleOn'] === 'function'){
+						options['toggleOn'].call(this);
+					}
+				}
+				e.preventDefault();
+		});
+	}
 	
 	// public functions;
 	this.setOn = function() {
