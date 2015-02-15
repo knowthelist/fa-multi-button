@@ -43,6 +43,7 @@ Options
 - **toggleOn**: Function called in state on
 - **toggleOff**: Function called in state off
 
+[See list for available icons name](http://fortawesome.github.io/Font-Awesome/icons)
 
 Hooks
 -------
