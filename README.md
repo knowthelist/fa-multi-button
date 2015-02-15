@@ -43,7 +43,7 @@ Options
 - **toggleOn**: Function called in state on
 - **toggleOff**: Function called in state off
 
-[See list for available icons](http://fortawesome.github.io/Font-Awesome/icons)
+[See the list for all available icons](http://fortawesome.github.io/Font-Awesome/icons)
 
 Dont forget the 'fa-' suffix in icon and backgroundIcon name.
 
@@ -63,7 +63,44 @@ Hooks
 </script>
 ```
 
+Update call for multi instances
+-------
 
+```html
+<div class="button" device="mylamp"></div>
+<div class="button" device="otherlamp"></div>
+
+<script>
+
+// init button
+ $('.button').each(function(index) {
+ 	
+ 	var device = $(this).attr('device');
+ 	var elem = $(this).famultibutton({
+		icon: 'fa-lightbulb-o',
+		backgroundIcon: 'fa-circle',
+		offColor: '#2A2A2A',
+		onColor: '#2A2A2A',
+		// Called in toggle on state.
+		toggleOn: function( ) { setSomething( device,"on" ); },
+	   	toggleOff: function( ) { setSomething( device,"off" ); },
+	});
+	// store instance into data
+	elem.data('famultibutton',elem);
+ });
+ 
+ // update button
+ function onUpdate() {
+ 	$('.button').each(function(index) {
+ 	  var state = getSomething( $(this).attr('device') );
+	  if ( state == 'on' )
+		$(this).data('famultibutton').setOn();
+	  else
+		$(this).data('famultibutton').setOff();
+ 	});
+ }
+</script>
+```
 
 License
 -------
