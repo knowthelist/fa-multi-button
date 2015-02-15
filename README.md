@@ -44,6 +44,7 @@ Options
 - **toggleOff**: Function called in state off
 
 [See list for available icons](http://fortawesome.github.io/Font-Awesome/icons)
+
 Dont forget the 'fa-' suffix in icon and backgroundIcon name.
 
 Hooks
