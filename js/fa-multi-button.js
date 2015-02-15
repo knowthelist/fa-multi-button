@@ -16,7 +16,7 @@ $.fn.famultibutton = function(pOptions) {
 		
 	if (this.length > 1){
 		this.each(function() { $(this).famultibutton(pOptions) });
-	return this;
+		return this;
 	}
 	
 	// private variables;
@@ -25,8 +25,8 @@ $.fn.famultibutton = function(pOptions) {
 	
 	// setup options
 	var defaultOptions = {
-		classes: ['fa-2x'],
 		backgroundIcon: 'fa-circle',
+		classes: ['fa-2x'],
 		icon: 'fa-power-off',
 		offColor: '#2A2A2A',
 		offBackgroundColor: '#505050',
@@ -42,18 +42,14 @@ $.fn.famultibutton = function(pOptions) {
 	// private functions;
 	var intialize = function() {
 
-	//if (elem.metadata()){
-
 		options = $.extend({}, options, elem.data());
-		//}
-
+		
 		elem.addClass('fa-stack');
 		
 		jQuery('<i/>', {
 			id: 'bg',
 			class: 'fa fa-stack-2x'
 		}).addClass(options['backgroundIcon'])
-		.css( "margin", "1px 1px")
 		.appendTo(elem);
 
 		jQuery('<i/>', {
@@ -62,8 +58,8 @@ $.fn.famultibutton = function(pOptions) {
 		}).addClass(options['icon']).appendTo(elem);
 		
 		if(options['classes'] && options['classes'].length > 0){
-		   for(var e=0;e<options['classes'].length;e++){
-				elem.addClass(options['classes'][e]);
+		   for(var i=0;i<options['classes'].length;i++){
+				elem.addClass(options['classes'][i]);
 		   }
 		}
 
