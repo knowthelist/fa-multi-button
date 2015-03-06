@@ -187,7 +187,7 @@ return elem;
 				
 					setOff();	
 					if(typeof options['toggleOff'] === 'function'){
-						options['toggleOff'](this);
+						options['toggleOff'].call(this);
 					}
 				}else{
 				
