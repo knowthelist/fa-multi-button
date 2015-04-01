@@ -1,8 +1,8 @@
 /*!jQuery FA multi button*/
 /**
-* Modern toggle, push button or just a signal indicator
+* Modern toggle, push button, dimmer or just a signal indicator
 *
-* Version: 1.0.1
+* Version: 1.1.1
 * Requires: jQuery v1.7+
 *
 * Copyright (c) 2015 Mario Stephan
@@ -22,6 +22,18 @@ $.fn.famultibutton = function(pOptions) {
 	// private variables;
 	var elem = this;
 	var state = false;
+	// private for dimmer
+	var canvasScale;
+	var objTimer;
+	var isRunning=false;
+	var resStepValues = [0, 10, 40, 80, 120, 140, 150, 160, 180, 200, 240, 260, 280, 300, 320, 420, 430, 440, 450, 460, 470];
+	var dragy = 0;
+	var currVal=0;
+	var diff = 0;
+	var baseTop = 0;
+	var posy = 0;
+	var isDrag = false;
+	var isDown = false; 
 	
 	// setup options
 	var defaultOptions = {
@@ -32,9 +44,10 @@ $.fn.famultibutton = function(pOptions) {
 		offBackgroundColor: '#505050',
 		onColor: '#2A2A2A',
 		onBackgroundColor: '#aa6900',
-		mode: 'toggle',  //toggle, push, signal,
+		mode: 'toggle',  //toggle, push, signal, dimmer
 		toggleOn: null,
-		toggleOff: null
+		toggleOff: null,
+		valueChanged: null
 	};
 	
 	var options = $.extend({}, defaultOptions, pOptions);
@@ -64,9 +77,26 @@ $.fn.famultibutton = function(pOptions) {
 		}
 
 		setOff();
+
+		if (options['mode'] == 'dimmer'){
+			$('<canvas>').attr({
+				id: 'scale'
+			}).appendTo(elem);
 			
+			canvasScale = elem.find('canvas#scale');
+				canvasScale.css({
+				'height': elem.innerHeight()+4,
+			});
+			baseTop = parseInt(canvasScale.offset().top) - parseInt(elem.offset().top);
+			drawScale();
+			moveScale();
+		}		
+        elem.data("famultibutton", elem);
+
 return elem;
 };
+
+
 
 	function setOn() {
 
@@ -154,7 +184,77 @@ return elem;
 	
 	   return '#' + diff_red + diff_green + diff_blue;
 	 };
+
+
+function tickTimer() {
+	clearTimeout(objTimer);
+	currVal = (diff > 0) ? currVal-=1 : currVal+=1;
+
+    if ( currVal>100) currVal=100;
+    if ( currVal<0) currVal=0;
+    
+    drawScale();
+    var d = (resStepValues[Math.abs(diff)]);
+    objTimer= setTimeout(function () {tickTimer()}, 500-d);
+ }
+
+function drawScale() {
+
+	var canvas = canvasScale[0];
+	canvas.height=elem.innerHeight();
+	canvas.width=elem.innerWidth();
+	
+	if (canvas.getContext){
 	 
+		var context = canvas.getContext('2d');
+		context.strokeStyle = options['offBackgroundColor'];
+		var valPosition = canvas.height-Math.round(canvas.height * currVal/100);
+		
+		for (var i=0;i<canvas.height;i+=4){
+			context.lineWidth = 1;
+			context.beginPath();
+			context.moveTo(5,i);
+			context.lineTo(25,i);
+			context.stroke();
+		}
+	
+		context.strokeStyle = (state)?options['onBackgroundColor']:
+								getGradientColor(options['offBackgroundColor'],'#ffffff',0.4);
+		context.lineWidth = 3;
+		context.beginPath();
+		context.moveTo(5,valPosition);
+		context.lineTo(25,valPosition);
+		context.stroke();
+	   
+		context.fillStyle = getGradientColor(options['offBackgroundColor'],'#ffffff',0.4);
+		context.font = "10px sans-serif";
+		context.fillText(currVal, 30, canvas.height);
+		 
+	  }
+}
+
+function moveScale() {
+
+	canvasScale.css({
+			position: 'absolute',
+			'z-index': -1,
+		});
+	
+	if (isDrag){
+		canvasScale.animate({
+			left:  -elem.innerWidth()*.6 +'px',
+		});
+	}
+	else {
+			canvasScale.animate({
+			left: elem.innerWidth()/5 +'px',
+			top: baseTop
+		});
+	}	
+	
+}
+
+
 	if (options['mode'] == 'push'){ 
 		var clickEventType=((document.ontouchstart!==null)?'mousedown':'touchstart');
 		var releaseEventType=((document.ontouchend!==null)?'mouseup':'touchend');
@@ -162,21 +262,21 @@ return elem;
 		this.bind(clickEventType, function(e) {
 	
 			setOn(); 
-
+			
 			if(typeof options['toggleOn'] === 'function'){
 				options['toggleOn'].call(this);
 			}
-			e.preventDefault();
+            //e.preventDefault();
 		});
 		this.bind(releaseEventType, function(e) {
 		
 			fadeOff(); 
-			e.preventDefault();
+            //e.preventDefault();
 		});
 		this.bind(leaveEventType, function(e) {
 		
 			fadeOff(); 
-			e.preventDefault();
+            //e.preventDefault();
 		});
 	}
 	else if (options['mode'] == 'toggle'){ 
@@ -187,7 +287,7 @@ return elem;
 				
 					setOff();	
 					if(typeof options['toggleOff'] === 'function'){
-						options['toggleOff'](this);
+						options['toggleOff'].call(this);
 					}
 				}else{
 				
@@ -199,7 +299,90 @@ return elem;
 				e.preventDefault();
 		});
 	}
+	else if (options['mode'] == 'dimmer'){ 
+		var clickEventType=((document.ontouchstart!==null)?'mousedown':'touchstart');
+		var moveEventType=((document.ontouchmove!==null)?'mousemove':'touchmove');
+		var releaseEventType=((document.ontouchend!==null)?'mouseup':'touchend');
+		var leaveEventType=((document.ontouchleave!==null)?'mouseout':'touchleave');
+		
+		this.bind(clickEventType, function(e) {
+
+			var event = e.originalEvent;
+			dragy =  event.touches ? event.touches[0].clientY :e.pageY;
+			diff = 0;
+			isDown = true;
+
+			e.preventDefault();
+		});
+		this.bind(leaveEventType, function(e) {
 	
+			if (isDrag){
+				isDrag = false;
+				elem.animate({ top: 0 });
+				clearInterval(objTimer);
+				isRunning=false;
+				moveScale();
+			}
+			isDown = false;
+			e.preventDefault();
+		});
+		this.bind(releaseEventType, function(e) {
+			
+			if (isDrag){
+				isDrag = false;
+				elem.animate({ top: 0 });
+				clearTimeout(objTimer);
+				isRunning=false;
+				if(typeof options['valueChanged'] === 'function'){
+					options['valueChanged'].call(this,currVal);
+				}
+			}else {
+				if(state){
+				
+					setOff();	
+					if(typeof options['toggleOff'] === 'function'){
+						options['toggleOff'].call(this);
+					}
+				}else{
+				
+					setOn(); 
+					if(typeof options['toggleOn'] === 'function'){
+						options['toggleOn'].call(this);
+					}
+				}}
+				isDrag = false;
+				isDown = false;
+				moveScale();
+				drawScale();
+			e.preventDefault();
+		});
+		this.bind(moveEventType, function(e) {
+			
+			if (isDown)
+				isDrag = true;
+	
+			var event = e.originalEvent;
+		  	posy =  event.touches ? event.touches[0].clientY :e.pageY;
+
+			diff = posy - dragy;
+			
+			if (diff>20) diff=20;
+			if (diff<-20) diff=-20;
+			if (isDrag){
+			this.style.top = diff + "px";
+			if (!isRunning){
+				moveScale();
+				tickTimer();
+				isRunning=true;
+			}
+			
+			canvasScale.css({
+					top: -diff+'px',
+				});
+			}
+			e.preventDefault();
+		});
+	}
 	// public functions;
 	this.setOn = function() {
 		setOn();	
@@ -210,8 +393,13 @@ return elem;
 	this.getState = function() {
 		return state;
 	};
-	
-		
+	this.getValue= function() {
+		return currVal;
+	};
+    this.setValue= function(val) {
+        currVal=val;
+        drawScale();
+    };
 return intialize();
 }
 })( jQuery );
